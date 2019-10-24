@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Server Programming Todo -list</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<p>This is Task list</p>
+	<a href="/tasklist">View tasks</a>
+	<a href="/oldtasks">View done tasks</a>
+	<a href="/addtask">Add new task</a>
+	<a href="/">Front page</a>
+	<p>Log out</p>
+
+	<table>
+		<tr>
+			<th>Task</th>
+			<th>Date</th>
+			<th>Category</th>
+		</tr>
+		<tr th:each = "task : ${tasks}">
+			<td th:text="${task.title}"></td>
+			<td th:text="${task.date}"></td>
+			<td th:text="${task.category.getName()}">
+			<td><a th:href="@{/edit/{id} (id=${task.id})}">Edit</a></td>
+			<td><a th:href="@{/delete/{id} (id=${task.id})}" >Delete</a></td>
+		</tr>
+	</table>
+
+</body>
+</html>
