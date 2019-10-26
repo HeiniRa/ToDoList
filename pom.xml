@@ -66,6 +66,20 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>animal-sniffer-maven-plugin</artifactId>
+        <version>1.16</version>
+        <executions>
+          <execution>
+            <id>___id of execution___</id>
+            <phase>package</phase>
+            <goals>
+              <goal>build</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 		</plugins>
 	</build>
 
