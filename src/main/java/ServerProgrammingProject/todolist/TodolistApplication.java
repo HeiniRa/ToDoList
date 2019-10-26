@@ -23,17 +23,20 @@ public class TodolistApplication {
 		return (args) -> {
 			
 			
-			Category cat1 = new Category("Home");
-			Category cat2 = new Category("Study");
 			
-			catRepository.save(cat1);
-			catRepository.save(cat2);
+			  Category cat1 = new Category("Home"); Category cat2 = new Category("Study");
+			  
+			  catRepository.save(cat1); catRepository.save(cat2);
+			 
 			
-			Task task1 = new Task("Cleanup the kitchen", "01-01-2020", catRepository.findByName("Home").get(0));
-			Task task2 = new Task("Remove stains from microwave", "31-12-2019", catRepository.findByName("Study").get(0));
 			
-			taskRepository.save(task1);
-			taskRepository.save(task2);
+			  Task task1 = new Task("Cleanup the kitchen", "01-01-2020",
+			  catRepository.findByName("Home").get(0)); Task task2 = new
+			  Task("Remove stains from microwave", "31-12-2019",
+			  catRepository.findByName("Study").get(0));
+			  
+			  taskRepository.save(task1); taskRepository.save(task2);
+			 
 		};
 	}
 

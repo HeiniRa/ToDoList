@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Task {
 
@@ -18,6 +20,7 @@ public class Task {
 	//private string/boolean status;
 
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "categoryId")
 	private Category category;
 

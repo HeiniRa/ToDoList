@@ -1,6 +1,5 @@
 package ServerProgrammingProject.todolist.web;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,100 +20,97 @@ public class TodoController {
 	@Autowired
 	private CategoryRepository catRepository;
 
-	
-	//List of all tasks (tasks that are not done)
-	public Iterable<Task> listAllTasks(){
+	// List of all tasks (tasks that are not done)
+	public Iterable<Task> listAllTasks() {
 		return taskRepository.findAll();
 	}
-	
-	//List of all categories
+
+	// List of all categories
 	public Iterable<Category> listAllCategories() {
 		return catRepository.findAll();
 	}
-	
-	
-	//Go to homepage
+
+	// Go to homepage
 	@GetMapping("/")
 	public String homePage() {
 		return "index";
 	}
-	
-	//View undone tasks
+
+	// View undone tasks
 	@GetMapping("/tasklist")
 	public String tasklist(Model model) {
-		
+
 		model.addAttribute("tasks", listAllTasks());
 		return "tasklist";
 	}
-	
-	//View done tasks
+
+	// View done tasks
 	@GetMapping("/oldtasks")
 	public String oldTasks() {
 		return "oldtasks";
 	}
-	
-	//Go to add task view
+
+	// Go to add task view
 	@GetMapping("/addtask")
 	public String addTask(@ModelAttribute Task task, Model model) {
-		
+
 		model.addAttribute("categories", listAllCategories());
 		return "/addtask";
 	}
-	
-	//Save new task
+
+	// Save new task
 	@PostMapping("/addtask")
 	public String save(Task task) {
 		taskRepository.save(task);
 		return "redirect:tasklist";
 	}
-	
-	//Delete task
+
+	// Delete task
 	@GetMapping("/delete/{id}")
 	public String deleteTask(@PathVariable("id") long taskId, Model model) {
 		taskRepository.deleteById(taskId);
 		return "redirect:/tasklist";
-		
+
 	}
-	
-	//Edit task
+
+	// Edit task
 	@GetMapping("/edit/{id}")
 	public String editTask(@PathVariable("id") long taskId, Model model) {
-		
-		model.addAttribute("task",taskRepository.findById(taskId));
+
+		model.addAttribute("task", taskRepository.findById(taskId));
 		model.addAttribute("categories", listAllCategories());
 		return "edittask";
 	}
-	
-	//Update task
+
+	// Update task
 	@PostMapping("/update/{id}")
 	public String update(@PathVariable("id") long taskId, Task taskDetails) {
 		Task task = taskRepository.findById(taskId);
-		
+
 		task.setCategory(taskDetails.getCategory());
 		task.setDate(taskDetails.getDate());
 		task.setTitle(taskDetails.getTitle());
-		
+
 		taskRepository.save(task);
-		
+
 		return "redirect:../tasklist";
 	}
 
-	//Log out
+	// Log out
 	@PostMapping("/logout")
 	public String logout() {
 		return "login";
 	}
-	
-	//Search task by title
+
+	// Search task by title
 	@PostMapping("/search/{title}")
-	public String searchTaskByTitle(@PathVariable("title") String title, Task taskTitle ) {
-		
-		//List<Task> taskList = new ArrayList<>();
-		//taskList = repository.fingByTitle(title);
-		
-		//model.addAttribute("tasks", taskList);
-		
-		
+	public String searchTaskByTitle(@PathVariable("title") String title, Task taskTitle) {
+
+		// List<Task> taskList = new ArrayList<>();
+		// taskList = repository.fingByTitle(title);
+
+		// model.addAttribute("tasks", taskList);
+
 		return "search";
 	}
 
