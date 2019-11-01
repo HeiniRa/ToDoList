@@ -3,29 +3,53 @@
 <head>
 <title>Server Programming Todo -list</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<!-- Ion icons  -->
+<link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
 </head>
 <body>
-	<p>This is Task list</p>
-	<a href="/tasklist">View tasks</a>
-	<a href="/oldtasks">View done tasks</a>
-	<a href="/addtask">Add new task</a>
-	<a href="/">Front page</a>
-	<p>Log out</p>
-
-	<table>
-		<tr>
-			<th>Task</th>
-			<th>Date</th>
-			<th>Category</th>
-		</tr>
-		<tr th:each = "task : ${tasks}">
-			<td th:text="${task.title}"></td>
-			<td th:text="${task.date}"></td>
-			<td th:text="${task.category.getName()}">
-			<td><a th:href="@{/edit/{id} (id=${task.id})}">Edit</a></td>
-			<td><a th:href="@{/delete/{id} (id=${task.id})}" >Delete</a></td>
-		</tr>
-	</table>
-
+	<div class="container">
+		
+		 <ul class="nav nav-tabs">
+		<li class="nav-item">
+		<a class="nav-link activate" href="/tasklist">Tasks</a>
+		</li>
+		<li class="nav-item">
+		<a class="nav-link activate" href="/oldtasks">View done tasks</a>
+		</li>
+		<li class="nav-item">
+		<a class="nav-link activate" href="/">Front page</a>
+		</li>
+		</ul> 
+	
+		<h3>Tasks</h3>
+		<table class="table table-striped">
+			<tr>
+				<th>Task</th>
+				<th>Date</th>
+				<th>Category</th>
+				<th>Status</th>
+				<th></th>
+				<th></th>
+			</tr>
+			<tr th:each="task : ${tasks}">
+				<td th:text="${task.title}"></td>
+				<td th:text="${task.date}"></td>
+				<td th:text="${task.category.getName()}">
+				 <td th:text="${task.status}"></td>
+				 <!-- User who added the task -->
+				<td><a th:href="@{/edit/{id} (id=${task.id})}"><ion-icon name="create" size="large"></ion-icon></a></td>
+				<td><a th:href="@{/delete/{id} (id=${task.id})}"> <ion-icon name="trash" size="large"></ion-icon></a></td>
+			</tr>
+		</table>
+		<nav class="navbar navbar-light bg-light">
+			<a class="btn btn-success" href="/addtask">Add Task</a>
+			<form th:action="@{/logout}" method="post">
+				<input type="submit" value="Sign Out" class="btn btn-danger"  />
+			</form>
+		</nav>
+	</div>
+	<script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 </body>
 </html>

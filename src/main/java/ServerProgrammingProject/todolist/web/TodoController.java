@@ -1,5 +1,7 @@
 package ServerProgrammingProject.todolist.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ServerProgrammingProject.todolist.domain.Category;
 import ServerProgrammingProject.todolist.domain.CategoryRepository;
@@ -44,6 +47,24 @@ public class TodoController {
 		return "tasklist";
 	}
 
+	// RESTful service to get all tasks
+	@GetMapping("tasks")
+	public @ResponseBody List<Task> taskListRest() {
+		return (List<Task>) taskRepository.findAll();
+	}
+
+	// RESTful service to get all categories
+	@GetMapping("categories")
+	public @ResponseBody List<Category> categoryListRest() {
+		return (List<Category>) catRepository.findAll();
+	}
+	
+	//RESTful service to get category by id
+	@GetMapping("category/{id}")
+	public @ResponseBody Category categoryRest(@PathVariable("id") long id) {
+		return catRepository.findById(id);
+	}
+	
 	// View done tasks
 	@GetMapping("/oldtasks")
 	public String oldTasks() {
@@ -90,10 +111,24 @@ public class TodoController {
 		task.setCategory(taskDetails.getCategory());
 		task.setDate(taskDetails.getDate());
 		task.setTitle(taskDetails.getTitle());
+		task.setStatus(taskDetails.getStatus());
 
 		taskRepository.save(task);
 
 		return "redirect:../tasklist";
+	}
+	
+	//Go to Add new category view
+	@GetMapping("/addcategory")
+	public String addCategory(@ModelAttribute Category category) {
+		return "/addcategory";
+	}
+	
+	//Add new category
+	@PostMapping("/addcategory")
+	public String saveNewCategory(Category category) {
+		catRepository.save(category);
+		return "redirect:/tasklist";
 	}
 
 	// Log out
@@ -101,7 +136,13 @@ public class TodoController {
 	public String logout() {
 		return "login";
 	}
-
+	
+	//Log in
+	@GetMapping("login")
+	public String login()
+	{
+		return "login";
+	}
 	// Search task by title
 	@PostMapping("/search/{title}")
 	public String searchTaskByTitle(@PathVariable("title") String title, Task taskTitle) {

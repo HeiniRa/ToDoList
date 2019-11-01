@@ -3,14 +3,32 @@
 <head>
 <title>Server Programming Todo -list</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+	integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+	crossorigin="anonymous">
+
 </head>
 <body>
-	<p>This is old tasks</p>
-	<a href="/tasklist">View tasks</a>
-	<a href="/oldtasks">View done tasks</a>
-	<a href="/addtask">Add new task</a>
-	<a href="/">Front page</a>
-	<p>Log out</p>
+	<div class="container">
+		 <ul class="nav nav-tabs">
+		<li class="nav-item">
+		<a class="nav-link activate" href="/tasklist">Tasks</a>
+		</li>
+		<li class="nav-item">
+		<a class="nav-link activate" href="/oldtasks">View done tasks</a>
+		</li>
+		<li class="nav-item">
+		<a class="nav-link activate" href="/">Front page</a>
+		</li>
+		</ul> 
+		<h3>This is old tasks</h3>
+	
 
+			<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-danger" />
+		</form>
+	</div>
 </body>
 </html>

@@ -3,16 +3,14 @@
 <head>
 <title>Server Programming Todo -list</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
 	integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
 	crossorigin="anonymous">
-
 </head>
 <body>
 	<div class="container">
-		 <ul class="nav nav-tabs">
+			 <ul class="nav nav-tabs">
 		<li class="nav-item">
 		<a class="nav-link activate" href="/tasklist">Tasks</a>
 		</li>
@@ -23,10 +21,19 @@
 		<a class="nav-link activate" href="/">Front page</a>
 		</li>
 		</ul> 
-		<h3>This is Task list</h3>
-		
+			<h2>Add New Category</h2>
+			<form th:object="${category}" th:action="@{addcategory}" action="#" method="post">
+				<div class="form-group">
+				<label for="name">Name</label>
+				 <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Enter name" /> 
+				</div>	
+				<input type="submit" value="save" class="btn btn-success"></input>
+			</form>
+			
+			<a href="/tasklist" class="btn btn-warning">Cancel</a>
+			
 		<form th:action="@{/logout}" method="post">
-			<input type="submit" value="Sign Out"class="btn btn-danger"  />
+			<input type="submit" value="Sign Out" class="btn btn-danger" />
 		</form>
 	</div>
 </body>

@@ -17,7 +17,8 @@ public class Task {
 	private Long id;
 	private String title;
 	private String date;
-	//private string/boolean status;
+	private String status;
+	//private User user
 
 	@ManyToOne
 	@JsonIgnore
@@ -28,11 +29,12 @@ public class Task {
 
 	}
 
-	public Task(String title, String date, Category category) {
+	public Task(String title, String date, Category category, String status) {
 		super();
 		this.title = title;
 		this.date = date;
 		this.category = category;
+		this.status = status;
 	}
 
 	public Long getId() {
@@ -65,6 +67,15 @@ public class Task {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Override

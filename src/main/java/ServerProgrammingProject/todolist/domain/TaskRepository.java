@@ -10,6 +10,8 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
 	List<Task> findByTitleIgnoreCase(String title);
 	
 	Task findById(long id);
+
+	//List<Task> findByName(String title);
 	
 
 }
