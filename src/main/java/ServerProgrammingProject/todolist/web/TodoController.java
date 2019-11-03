@@ -2,6 +2,8 @@ package ServerProgrammingProject.todolist.web;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
+import ServerProgrammingProject.todolist.TodolistApplication;
 import ServerProgrammingProject.todolist.domain.Category;
 import ServerProgrammingProject.todolist.domain.CategoryRepository;
 import ServerProgrammingProject.todolist.domain.Task;
@@ -22,6 +26,8 @@ public class TodoController {
 	private TaskRepository taskRepository;
 	@Autowired
 	private CategoryRepository catRepository;
+	
+	private static final Logger log = LoggerFactory.getLogger(TodolistApplication.class);
 
 	// List of all tasks (tasks that are not done)
 	public Iterable<Task> listAllTasks() {
@@ -77,10 +83,10 @@ public class TodoController {
 	public String addTask(@ModelAttribute Task task, Model model) {
 		try {
 			model.addAttribute("categories", listAllCategories());
-			System.out.println("Endpoint '/addtask' reached");
+			log.info("Endpoint '/addtask' reached");
 			return "/addtask";
 		} catch (Exception e) {
-			System.err.println("Failed, see the exception: " + e);
+			log.error("Failed, see the exception: " + e);
 			return "/index";
 		}
 	}
@@ -128,10 +134,10 @@ public class TodoController {
 	@GetMapping("/addcategory")
 	public String addCategory(@ModelAttribute Category category) {
 		try {
-			System.out.println("Endpoint '/addcategory' reached.");
+			log.info("Endpoint '/addcategory' reached.");
 			return "/addcategory";
 		} catch (Exception e) {
-			System.err.println("Failed.Endpoint '/addcategory' couldn't be reached. See the exception: " + e);
+			log.error("Failed.Endpoint '/addcategory' couldn't be reached. See the exception: " + e);
 			return "/index";
 		}
 
