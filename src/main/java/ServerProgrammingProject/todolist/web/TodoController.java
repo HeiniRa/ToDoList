@@ -36,6 +36,7 @@ public class TodoController {
 	// Go to homepage
 	@GetMapping("/")
 	public String homePage() {
+
 		return "index";
 	}
 
@@ -58,13 +59,13 @@ public class TodoController {
 	public @ResponseBody List<Category> categoryListRest() {
 		return (List<Category>) catRepository.findAll();
 	}
-	
-	//RESTful service to get category by id
+
+	// RESTful service to get category by id
 	@GetMapping("category/{id}")
 	public @ResponseBody Category categoryRest(@PathVariable("id") long id) {
 		return catRepository.findById(id);
 	}
-	
+
 	// View done tasks
 	@GetMapping("/oldtasks")
 	public String oldTasks() {
@@ -74,9 +75,14 @@ public class TodoController {
 	// Go to add task view
 	@GetMapping("/addtask")
 	public String addTask(@ModelAttribute Task task, Model model) {
-
-		model.addAttribute("categories", listAllCategories());
-		return "/addtask";
+		try {
+			model.addAttribute("categories", listAllCategories());
+			System.out.println("Endpoint '/addtask' reached");
+			return "/addtask";
+		} catch (Exception e) {
+			System.err.println("Failed, see the exception: " + e);
+			return "/index";
+		}
 	}
 
 	// Save new task
@@ -117,14 +123,21 @@ public class TodoController {
 
 		return "redirect:../tasklist";
 	}
-	
-	//Go to Add new category view
+
+	// Go to Add new category view
 	@GetMapping("/addcategory")
 	public String addCategory(@ModelAttribute Category category) {
-		return "/addcategory";
+		try {
+			System.out.println("Endpoint '/addcategory' reached.");
+			return "/addcategory";
+		} catch (Exception e) {
+			System.err.println("Failed.Endpoint '/addcategory' couldn't be reached. See the exception: " + e);
+			return "/index";
+		}
+
 	}
-	
-	//Add new category
+
+	// Add new category
 	@PostMapping("/addcategory")
 	public String saveNewCategory(Category category) {
 		catRepository.save(category);
@@ -136,13 +149,13 @@ public class TodoController {
 	public String logout() {
 		return "login";
 	}
-	
-	//Log in
+
+	// Log in
 	@GetMapping("login")
-	public String login()
-	{
+	public String login() {
 		return "login";
 	}
+
 	// Search task by title
 	@PostMapping("/search/{title}")
 	public String searchTaskByTitle(@PathVariable("title") String title, Task taskTitle) {
