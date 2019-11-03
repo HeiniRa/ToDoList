@@ -84,10 +84,10 @@ public class TodoController {
 		try {
 			model.addAttribute("categories", listAllCategories());
 			log.info("Endpoint '/addtask' reached");
-			return "/addtask";
+			return "addtask";
 		} catch (Exception e) {
 			log.error("Failed, see the exception: " + e);
-			return "/index";
+			return "index";
 		}
 	}
 
@@ -95,7 +95,7 @@ public class TodoController {
 	@PostMapping("/addtask")
 	public String save(Task task) {
 		taskRepository.save(task);
-		return "redirect:tasklist";
+		return "redirect:/tasklist";
 	}
 
 	// Delete task
@@ -135,10 +135,10 @@ public class TodoController {
 	public String addCategory(@ModelAttribute Category category) {
 		try {
 			log.info("Endpoint '/addcategory' reached.");
-			return "/addcategory";
+			return "addcategory";
 		} catch (Exception e) {
 			log.error("Failed.Endpoint '/addcategory' couldn't be reached. See the exception: " + e);
-			return "/index";
+			return "index";
 		}
 
 	}
