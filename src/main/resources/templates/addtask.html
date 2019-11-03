@@ -9,18 +9,15 @@
 	crossorigin="anonymous">
 </head>
 <body>
-	<div class="container">
-			 <ul class="nav nav-tabs">
-		<li class="nav-item">
-		<a class="nav-link activate" href="/tasklist">Tasks</a>
-		</li>
-		<li class="nav-item">
-		<a class="nav-link activate" href="/oldtasks">View done tasks</a>
-		</li>
+<div class="container">
+		 <ul class="nav nav-tabs">
 		<li class="nav-item">
 		<a class="nav-link activate" href="/">Front page</a>
 		</li>
-		</ul> 
+		<li class="nav-item">
+		<a class="nav-link activate" href="/todosByUser">Tasks by users</a>
+		</li>
+		</ul>
 			<h2>Add New Task</h2>
 			<form th:object="${task}" th:action="@{addtask}" action="#" method="post">
 				<div class="form-group">
@@ -40,11 +37,13 @@
 				 <select id="catlist" th:field="*{category}" class="form-control">
 					<option th:each="category: ${categories}" th:value="${category.categoryId}" th:text="${category.name}"></option>
 				</select>
+				<p></p>
+				<input type="submit" value="Save" class="btn btn-success"></input>
 				
-				<input type="submit" value="save" class="btn btn-success"></input>
 				</div> 
+				<a href="/" class="btn btn-warning">Cancel</a>
 			</form>
-			<a href="/tasklist" class="btn btn-warning">Cancel</a>
+			
 			
 		<form th:action="@{/logout}" method="post">
 			<input type="submit" value="Sign Out" class="btn btn-danger" />

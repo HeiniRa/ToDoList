@@ -18,7 +18,7 @@ public class Task {
 	private String title;
 	private String date;
 	private String status;
-	//private User user
+	private String user;
 
 	@ManyToOne
 	@JsonIgnore
@@ -29,12 +29,13 @@ public class Task {
 
 	}
 
-	public Task(String title, String date, Category category, String status) {
+	public Task(String title, String date, Category category, String status, String user) {
 		super();
 		this.title = title;
 		this.date = date;
 		this.category = category;
 		this.status = status;
+		this.user = user;
 	}
 
 	public Long getId() {
@@ -68,7 +69,6 @@ public class Task {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
 
 	public String getStatus() {
 		return status;
@@ -78,9 +78,18 @@ public class Task {
 		this.status = status;
 	}
 
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
 	@Override
 	public String toString() {
-		return "Task [id=" + id + ", title=" + title + ", date=" + date + "]";
+		return "Task [id=" + id + ", title=" + title + ", date=" + date + ", status=" + status + ", user=" + user
+				+ ", category=" + category + "]";
 	}
 
 }

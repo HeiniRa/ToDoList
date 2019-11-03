@@ -12,6 +12,14 @@
 </head>
 <body>
 	<div class="container">
+		 <ul class="nav nav-tabs">
+		<li class="nav-item">
+		<a class="nav-link activate" href="/">Front page</a>
+		</li>
+		<li class="nav-item">
+		<a class="nav-link activate" href="/todosByUser">Tasks by users</a>
+		</li>
+		</ul>
 		<h1>Edit task </h1>
 
 		<div>
@@ -28,7 +36,7 @@
 					<option th:each="category: ${categories}" th:value="${category.categoryId}" th:text="${category.name}"></option>
 				</select> <input type="submit" value="save"></input>
 			</form>
-			<a href="/tasklist">Cancel</a>
+			<a href="/">Cancel</a>
 		</div>
 
 	</div>

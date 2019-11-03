@@ -10,15 +10,12 @@
 </head>
 <body>
 	<div class="container">
-			 <ul class="nav nav-tabs">
-		<li class="nav-item">
-		<a class="nav-link activate" href="/tasklist">Tasks</a>
-		</li>
-		<li class="nav-item">
-		<a class="nav-link activate" href="/oldtasks">View done tasks</a>
-		</li>
+		 <ul class="nav nav-tabs">
 		<li class="nav-item">
 		<a class="nav-link activate" href="/">Front page</a>
+		</li>
+		<li class="nav-item">
+		<a class="nav-link activate" href="/todosByUser">Tasks by users</a>
 		</li>
 		</ul> 
 			<h2>Add New Category</h2>
@@ -30,7 +27,7 @@
 				<input type="submit" value="save" class="btn btn-success"></input>
 			</form>
 			
-			<a href="/tasklist" class="btn btn-warning">Cancel</a>
+			<a href="/" class="btn btn-warning">Cancel</a>
 			
 		<form th:action="@{/logout}" method="post">
 			<input type="submit" value="Sign Out" class="btn btn-danger" />

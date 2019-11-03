@@ -17,42 +17,41 @@
 		<a class="nav-link activate" href="/">Front page</a>
 		</li>
 		<li class="nav-item">
-		<a class="nav-link activate" href="/todosByUser">Tasks by users</a>
+		<a class="nav-link activate" href="/search">Tasks by users</a>
 		</li>
 		</ul> 
 		
-		<h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
-		
-		<h3>Tasks</h3>
+		<h2>Tasks by  </h2>
+		<div th:each="index,iterStat : ${users}">
+   		<h3 th:text="${users[iterStat.index].getUsername()}"></h3>
 		<table class="table table-striped">
+		<thead>
 			<tr>
 				<th>Task</th>
 				<th>Date</th>
 				<th>Category</th>
 				<th>Status</th>
 				<th>CreatedBy</th>
-				<th>Modify</th>
-				<th>Delete</th>
+				<th colspan="2"></th>
 			</tr>
-			<tr th:each="task : ${tasks}">
+		</thead>
+		<tbody>        	
+			<tr th:each="task : ${tasks}" th:if="${task.user} == ${users[iterStat.index].getUsername()}">
 				<td th:text="${task.title}"></td>
 				<td th:text="${task.date}"></td>
 				<td th:text="${task.category.getName()}">
-				 <td th:text="${task.status}"></td>
-				 <td th:text="${task.user}"></td>
+				<td th:text="${task.status}"></td>
+				<td th:text="${task.user}"></td>
 				<td><a th:href="@{edit/{id} (id=${task.id})}"><ion-icon name="create" size="large"></ion-icon></a></td>
 				<td><a th:href="@{delete/{id} (id=${task.id})}"> <ion-icon name="trash" size="large"></ion-icon></a></td>
 			</tr>
+		</tbody>
 		</table>
-		<nav class="navbar navbar-light bg-light">
-			<a class="btn btn-success" href="/addtask">Add Task</a>
-			<p sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/addcategory}" class="btn btn-primary">Add Category</a></p>
-		</nav>	
+		</div> 
 		
 		<form th:action="@{/logout}" method="post">
-			<input type="submit" value="Sign Out" class="btn btn-danger" />
+			<input type="submit" value="Sign Out"class="btn btn-danger"  />
 		</form>
 	</div>
-	<script type="module" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.esm.js"></script>
 </body>
 </html>

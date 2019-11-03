@@ -1,9 +1,8 @@
 package ServerProgrammingProject.todolist.web;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,12 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
-import ServerProgrammingProject.todolist.TodolistApplication;
 import ServerProgrammingProject.todolist.domain.Category;
 import ServerProgrammingProject.todolist.domain.CategoryRepository;
 import ServerProgrammingProject.todolist.domain.Task;
 import ServerProgrammingProject.todolist.domain.TaskRepository;
+import ServerProgrammingProject.todolist.domain.UserRepository;
 
 @Controller
 public class TodoController {
@@ -26,8 +24,8 @@ public class TodoController {
 	private TaskRepository taskRepository;
 	@Autowired
 	private CategoryRepository catRepository;
-	
-	private static final Logger log = LoggerFactory.getLogger(TodolistApplication.class);
+	@Autowired
+	private UserRepository userRepository;
 
 	// List of all tasks (tasks that are not done)
 	public Iterable<Task> listAllTasks() {
@@ -38,78 +36,41 @@ public class TodoController {
 	public Iterable<Category> listAllCategories() {
 		return catRepository.findAll();
 	}
+	
 
 	// Go to homepage
 	@GetMapping("/")
-	public String homePage() {
-
-		return "index";
-	}
-
-	// View undone tasks
-	@GetMapping("/tasklist")
-	public String tasklist(Model model) {
-
+	public String homePage(Model model) {
 		model.addAttribute("tasks", listAllTasks());
-		return "tasklist";
-	}
-
-	// RESTful service to get all tasks
-	@GetMapping("tasks")
-	public @ResponseBody List<Task> taskListRest() {
-		return (List<Task>) taskRepository.findAll();
-	}
-
-	// RESTful service to get all categories
-	@GetMapping("categories")
-	public @ResponseBody List<Category> categoryListRest() {
-		return (List<Category>) catRepository.findAll();
-	}
-
-	// RESTful service to get category by id
-	@GetMapping("category/{id}")
-	public @ResponseBody Category categoryRest(@PathVariable("id") long id) {
-		return catRepository.findById(id);
-	}
-
-	// View done tasks
-	@GetMapping("/oldtasks")
-	public String oldTasks() {
-		return "oldtasks";
+		return "index";
 	}
 
 	// Go to add task view
 	@GetMapping("/addtask")
 	public String addTask(@ModelAttribute Task task, Model model) {
-		try {
-			model.addAttribute("categories", listAllCategories());
-			log.info("Endpoint '/addtask' reached");
-			return "addtask";
-		} catch (Exception e) {
-			log.error("Failed, see the exception: " + e);
-			return "index";
-		}
+		model.addAttribute("categories", listAllCategories());
+		return "addtask";
+
 	}
 
 	// Save new task
 	@PostMapping("/addtask")
 	public String save(Task task) {
 		taskRepository.save(task);
-		return "redirect:/tasklist";
+		return "redirect:/index";
 	}
 
 	// Delete task
 	@GetMapping("/delete/{id}")
 	public String deleteTask(@PathVariable("id") long taskId, Model model) {
 		taskRepository.deleteById(taskId);
-		return "redirect:/tasklist";
+		return "redirect:/index";
 
 	}
 
 	// Edit task
 	@GetMapping("/edit/{id}")
 	public String editTask(@PathVariable("id") long taskId, Model model) {
-
 		model.addAttribute("task", taskRepository.findById(taskId));
 		model.addAttribute("categories", listAllCategories());
 		return "edittask";
@@ -127,27 +88,22 @@ public class TodoController {
 
 		taskRepository.save(task);
 
-		return "redirect:../tasklist";
+		return "redirect:../index";
 	}
 
 	// Go to Add new category view
 	@GetMapping("/addcategory")
 	public String addCategory(@ModelAttribute Category category) {
-		try {
-			log.info("Endpoint '/addcategory' reached.");
-			return "addcategory";
-		} catch (Exception e) {
-			log.error("Failed.Endpoint '/addcategory' couldn't be reached. See the exception: " + e);
-			return "index";
-		}
+		return "addcategory";
 
 	}
 
 	// Add new category
 	@PostMapping("/addcategory")
 	public String saveNewCategory(Category category) {
+
 		catRepository.save(category);
-		return "redirect:/tasklist";
+		return "redirect:/index";
 	}
 
 	// Log out
@@ -161,17 +117,32 @@ public class TodoController {
 	public String login() {
 		return "login";
 	}
+	
+	// Go to tasks by users view
+	@GetMapping("todosByUser")
+	public String tasksByUsers(Model model) {
+		model.addAttribute("tasks", listAllTasks());
+		model.addAttribute("users",userRepository.findAll());
+		return "todosByUser";
+	}
+	
+	
+	// RESTful service to get all tasks
+	@GetMapping("tasks")
+	public @ResponseBody List<Task> taskListRest() {
+		return (List<Task>) taskRepository.findAll();
+	}
 
-	// Search task by title
-	@PostMapping("/search/{title}")
-	public String searchTaskByTitle(@PathVariable("title") String title, Task taskTitle) {
+	// RESTful service to get all categories
+	@GetMapping("categories")
+	public @ResponseBody List<Category> categoryListRest() {
+		return (List<Category>) catRepository.findAll();
+	}
 
-		// List<Task> taskList = new ArrayList<>();
-		// taskList = repository.fingByTitle(title);
-
-		// model.addAttribute("tasks", taskList);
-
-		return "search";
+	// RESTful service to get category by id
+	@GetMapping("category/{id}")
+	public @ResponseBody Category categoryRest(@PathVariable("id") long id) {
+		return catRepository.findById(id);
 	}
 
 }
