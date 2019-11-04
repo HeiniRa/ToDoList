@@ -36,7 +36,6 @@ public class TodoController {
 	public Iterable<Category> listAllCategories() {
 		return catRepository.findAll();
 	}
-	
 
 	// Go to homepage
 	@GetMapping("/")
@@ -57,14 +56,14 @@ public class TodoController {
 	@PostMapping("/addtask")
 	public String save(Task task) {
 		taskRepository.save(task);
-		return "redirect:/index";
+		return "redirect:/";
 	}
 
 	// Delete task
 	@GetMapping("/delete/{id}")
 	public String deleteTask(@PathVariable("id") long taskId, Model model) {
 		taskRepository.deleteById(taskId);
-		return "redirect:/index";
+		return "redirect:/";
 
 	}
 
@@ -85,10 +84,11 @@ public class TodoController {
 		task.setDate(taskDetails.getDate());
 		task.setTitle(taskDetails.getTitle());
 		task.setStatus(taskDetails.getStatus());
+		// task.setUser(taskDetails.getUser());
 
 		taskRepository.save(task);
 
-		return "redirect:../index";
+		return "redirect:../";
 	}
 
 	// Go to Add new category view
@@ -103,7 +103,7 @@ public class TodoController {
 	public String saveNewCategory(Category category) {
 
 		catRepository.save(category);
-		return "redirect:/index";
+		return "redirect:/";
 	}
 
 	// Log out
@@ -117,16 +117,15 @@ public class TodoController {
 	public String login() {
 		return "login";
 	}
-	
+
 	// Go to tasks by users view
 	@GetMapping("todosByUser")
 	public String tasksByUsers(Model model) {
 		model.addAttribute("tasks", listAllTasks());
-		model.addAttribute("users",userRepository.findAll());
+		model.addAttribute("users", userRepository.findAll());
 		return "todosByUser";
 	}
-	
-	
+
 	// RESTful service to get all tasks
 	@GetMapping("tasks")
 	public @ResponseBody List<Task> taskListRest() {

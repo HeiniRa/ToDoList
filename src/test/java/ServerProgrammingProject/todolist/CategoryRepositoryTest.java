@@ -22,6 +22,8 @@ public class CategoryRepositoryTest {
 
 	@Test
 	public void findByNameShouldReturnCategory() {
+		Category category = new Category("Study");
+		repository.save(category);
 		List<Category> cateogries = repository.findByName("Study");
 		assertThat(cateogries).hasSize(1);
 		assertThat(cateogries.get(0).getName().equalsIgnoreCase("Study"));
